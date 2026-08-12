@@ -1,0 +1,11 @@
+// Detection: New Scheduled Task Created
+// Data Source: Windows Security Event 4698
+// MITRE ATT&CK: T1053.005 - Scheduled Task
+
+SecurityEvent
+| where EventID == 4698
+| project
+    TimeGenerated,
+    Computer,
+    SubjectAccount,
+    EventData

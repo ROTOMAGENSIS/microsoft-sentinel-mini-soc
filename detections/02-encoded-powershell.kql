@@ -1,0 +1,21 @@
+// Detection: Encoded PowerShell Execution
+// Data Source: Windows Security Event 4688
+// MITRE ATT&CK: T1059.001 - PowerShell
+// Purpose: Detect PowerShell processes using encoded command-line arguments.
+
+SecurityEvent
+| where EventID == 4688
+| where NewProcessName endswith @"\powershell.exe"
+    or NewProcessName endswith @"\pwsh.exe"
+| where CommandLine has_any (
+    "-EncodedCommand",
+    "-encodedcommand",
+    "-enc"
+)
+| project
+    TimeGenerated,
+    Computer,
+    SubjectAccount,
+    ParentProcessName,
+    NewProcessName,
+    CommandLine
